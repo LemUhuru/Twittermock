@@ -25,3 +25,4 @@ include ApplicationHelper
 			expect(page).to have_selector('div.alert.alert-error', text: message)
 		end
 	end
+	
