@@ -40,6 +40,8 @@ describe "AuthenticationPages" do
 			describe "followed by signout" do 
 				before { click_link "Sign out" }
 				it { should have_link('Sign in') }
+				it { should_not have_link('Profile', 	href: user_path(user)) }
+				it { should_not have_link('Settings', 	href: edit_user_path(user)) }
 			end
 		end
 
@@ -62,6 +64,17 @@ describe "AuthenticationPages" do
 
 					it "should render the desired protected page" do 
 						expect(page).to have_title('Edit user')
+					end
+				end
+
+				describe "when signing in again" do 
+					before do 
+						click_link "Sign out"
+						sign_in user 
+					end
+
+					it "should render the default (profile) page" do 
+						expect(page).to have_title(user.name) 
 					end
 				end
 			end
@@ -98,6 +111,29 @@ describe "AuthenticationPages" do
 
 			describe "submitting a patch request to the Users#update action" do 
 				before { patch user_path(wrong_user) }
+				specify { expect(response).to redirect_to(root_url) }
+			end
+		end
+
+		describe "as admin user" do 
+			let(:admin) { FactoryGirl.create(:admin) }
+			before { sign_in admin, no_capybara: true }
+
+			describe "should not be able to delete self via DELETE request" do 
+				specify do 
+					expect { delete user_path(admin) }.not_to change(User, :count).by(-1)
+				end
+			end
+		end
+
+		describe "as non-admin user" do 
+			let(:user) { FactoryGirl.create(:user) }
+			let(:non_admin) {FactoryGirl.create(:user) }
+
+			before { sign_in non_admin, no_capybara: true }
+
+			describe "submitting a DELETE request to the Users#destroy action" do 
+				before { delete user_path(user) }
 				specify { expect(response).to redirect_to(root_url) }
 			end
 		end
