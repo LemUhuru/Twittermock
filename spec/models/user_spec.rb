@@ -185,15 +185,9 @@ describe User do
     its(:followed_users) { should include(other_user) }
 
     describe "followed user" do 
-<<<<<<< HEAD
-        subject { other_user }
-        its(:followers) { should include(@user) }
-      end
-=======
       subject { other_user }
       its(:followers) { should include(@user) }
     end
->>>>>>> following-users
 
     describe "and unfollowing" do 
       before { @user.unfollow!(other_user) }
