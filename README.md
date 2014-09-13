@@ -1,5 +1,4 @@
-# Ruby on Rails Tutorial: sample application
+# Twittermock
 
-This is the sample application for
-the [*Ruby on Rails Tutorial*](http://railstutorial.org/)
-by [Michael Hartl](http://michaelhartl.com/).
+Twitter like application based on Michael Hartl [*Ruby on Rails Tutorial*] enhanced with new features. 
+(e.g, search, email confirmation, custom imaging, etc.)
